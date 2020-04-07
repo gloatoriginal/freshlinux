@@ -28,7 +28,3 @@ echo "Preparing to Install git" using apt-get
 sudo apt-get install git -y
 sleep 2
 
-echo "Preparing to Install code --classic" using snap
-sudo snap install code --classic -y
-sleep 2
-
