@@ -30,6 +30,7 @@ fn main() {
         println!("apt text files are not same length->");
         println!("apt_common.txt: {}\napt_literal.txt: {}", apt_common_name.len(), apt_literal_name.len()); 
     } 
+    
     else { 
         for i in 0..apt_common_name.len(){
             println!("Would you like {} installed?", apt_common_name[i]);
