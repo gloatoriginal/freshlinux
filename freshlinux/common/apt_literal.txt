@@ -1,0 +1,7 @@
+nodejs
+build-essential
+python3-pip
+default-jre
+snapd
+curl
+git

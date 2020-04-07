@@ -1,43 +1,24 @@
 use std::fs::File;
 use std::process::Command;
-use std::io::{Write};
+use std::io::prelude::*;
+use std::io::{BufReader, Write};
 
-pub fn main(file: &File, install: String){
-    let apt_arrays = ["build-essential".to_string(), "nodejs".to_string(),
-    "python3-pip".to_string(), "default-jre".to_string(), "snapd".to_string(),
-    "curl".to_string(), "git".to_string()];
 
-    let snap_arrays = ["code --classic".to_string()];
 
-    let curl_arrays = ["rustup".to_string()];
 
-    if apt_arrays.contains(&install) {
-        write_to_apt(file, &install);
-    }
-    if snap_arrays.contains(&install) {
-        write_to_snap(file, &install);
-    }
-    if curl_arrays.contains(&install){
-        write_to_curl(file, &install);
-    }
-    
+
+pub fn main(file: &File, install: &String, install_type: &String){
+    write_to_install(&file, &install, install_type);
 }
 
-
-fn write_to_apt(mut file: &File, install: &String){
-    writeln!(file, "echo \"Preparing to Install {}\"", install);
-    writeln!(file, "sudo apt-get install {} -y", install);
+fn write_to_install(mut file: &File, install: &String, install_type: &String){
+    writeln!(file, "echo \"Preparing to Install {}\" using {}", install, install_type);
+    writeln!(file, "sudo {} install {} -y", install_type, install);
     writeln!(file, "sleep 2\n");
     if install == "default-jre" { writeln!(file, "sudo apt-get install default-jdk -y"); }
     println!("Finished writing {} to the main.sh", install);
 }
 
-fn write_to_snap (mut file: &File, install: &String){
-    writeln!(file, "echo \"Preparing to Install {}\"", install);
-    writeln!(file, "sudo snap install {}", install);
-    writeln!(file, "sleep 2\n");
-    println!("Finished writing {} to the main.sh", install);
-}
 
 fn write_to_curl (mut file: &File, install: &String) {
     writeln!(file, "echo \"Preparing to Install {}\"", install);
@@ -68,4 +49,16 @@ pub fn execute(mut file: &File) {
         .expect("Failed to-> start main.sh");
 
     println!("Thank you for using my auto installer!");
+}
+
+
+pub fn directory_read(which_file: String) -> Vec<String> {
+    let temp_file = File::open(format!("common/{}.txt", which_file))
+            .expect("Unable to open Text file");
+    let buff = BufReader::new(temp_file);
+    let mut return_vec = vec![];
+    for i in buff.lines() {
+        return_vec.push(i.unwrap());
+    }
+    return_vec
 }
