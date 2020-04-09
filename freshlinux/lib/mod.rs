@@ -3,9 +3,13 @@ use std::process::Command;
 use std::io::prelude::*;
 use std::io::{BufReader, Write};
 
+mod intro;
 
 
-
+pub fn app_intro() { intro::intro(); }
+pub fn name_check_vectors(common_name: &Vec<String>, literal_name: &Vec<String>) -> bool { 
+    intro::check_vectors(&common_name, &literal_name) 
+}
 
 pub fn main(file: &File, install: &String, install_type: &String){
     write_to_install(&file, &install, install_type);
