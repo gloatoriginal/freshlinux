@@ -26,8 +26,8 @@ fn main() {
         }
      }
      //start of snap
-     common_name = lib::directory_read("snap_common".to_string());
-     literal_name = lib::directory_read("snap_literal".to_string());
+    common_name = lib::directory_read("snap_common".to_string());
+    literal_name = lib::directory_read("snap_literal".to_string());
     println!("Starting snap settings");
     if lib::name_check_vectors(&common_name, &literal_name){ println!("Something is wrong with your snap lists.") } 
     else { 
